@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
  *      - 스케쥴 수정
  *      - 스케쥴 삭제
  */
-@Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long>, ScheduleRepositoryCustom {
 
 }
