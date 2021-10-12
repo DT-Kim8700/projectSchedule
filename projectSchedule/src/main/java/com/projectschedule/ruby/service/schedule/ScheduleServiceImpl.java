@@ -1,6 +1,8 @@
 package com.projectschedule.ruby.service.schedule;
 
 import com.projectschedule.ruby.entity.Schedule;
+import com.projectschedule.ruby.entity.dto.ScheduleDto;
+import com.projectschedule.ruby.entity.enumItem.ProgressStatus;
 import com.projectschedule.ruby.repository.schedule.ScheduleRepository;
 import com.projectschedule.ruby.repository.scheduleItem.ScheduleItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,13 +46,19 @@ public class ScheduleServiceImpl implements ScheduleService{
     /**
      * 스케쥴 갱신
      *
-     * @param schedule
+     * @param scheduleDto
      * @return
      */
     @Override
-    public void modifySchedule(Schedule schedule) {
-        Schedule fineSchedule = scheduleRepository.findById(schedule.getId()).orElseGet(null);
-        fineSchedule.modifySchedule(fineSchedule);
+    public void modifySchedule(ScheduleDto scheduleDto) {
+        Schedule fineSchedule = scheduleRepository.findById(scheduleDto.getId()).orElseGet(null);
+        if (fineSchedule != null) {
+            fineSchedule.modifyScheduleName("스케쥴변경")
+                    .modifyStartDay(scheduleDto.getStartDay())
+                    .modifyEndDay(scheduleDto.getEndDay())
+                    .modifyStatus(scheduleDto.getStatus());
+        }
+
         // 변경감지를 통해서 수정한다. 먼저 이전 값을 조회해와서 모든 필드값을 채운 영속 객체를 얻은 다음 변경된 값만 변경 적용
         // 그렇지 않으면 채우지 않은 필드가 null 로 반영이 될 위험이 있다.
     }

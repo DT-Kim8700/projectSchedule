@@ -1,6 +1,7 @@
 package com.projectschedule.ruby.service.member;
 
 import com.projectschedule.ruby.entity.Member;
+import com.projectschedule.ruby.entity.dto.MemberDto;
 import com.projectschedule.ruby.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,10 +40,11 @@ public class MemberServiceImpl implements MemberService{
      * @return
      */
     @Override
-    public Member loginMember(Member member) {
+    public Member loginMember(MemberDto member) {
+        String email = member.getEmail();
+        String password= member.getPassword();
 
-
-        return null;
+        return memberRepository.findByEmailAndPassword(email, password);
     }
 
 

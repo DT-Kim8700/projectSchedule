@@ -1,6 +1,7 @@
 package com.projectschedule.ruby.service.member;
 
 import com.projectschedule.ruby.entity.Member;
+import com.projectschedule.ruby.entity.dto.MemberDto;
 
 /**
  * Member 서비스
@@ -21,5 +22,5 @@ public interface MemberService {
      * @param member
      * @return
      */
-    Member loginMember(Member member);
+    Member loginMember(MemberDto member);
 }

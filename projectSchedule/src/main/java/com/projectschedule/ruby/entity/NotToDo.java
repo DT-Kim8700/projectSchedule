@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -26,7 +27,7 @@ public class NotToDo {
     @Column(name = "notToDo_id")
     private Long id;
 
-    @NotEmpty
+    @NotNull
     private String notToDoName;     // Not To Do List 명
     private String remark;          // 비고
 

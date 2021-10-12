@@ -13,4 +13,12 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
      * @return
      */
     List<Member> findByEmail(String email);
+
+    /**
+     * Email 과 Password로 해당 회원 인증
+     * @param email
+     * @param password
+     * @return
+     */
+    Member findByEmailAndPassword(String email, String password);
 }

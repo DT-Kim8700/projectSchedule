@@ -2,6 +2,7 @@ package com.projectschedule.ruby.service.schedule;
 
 import com.projectschedule.ruby.entity.Member;
 import com.projectschedule.ruby.entity.Schedule;
+import com.projectschedule.ruby.entity.dto.ScheduleDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -34,7 +35,7 @@ public interface ScheduleService {
      * @param schedule
      * @return
      */
-    void modifySchedule(Schedule schedule);
+    void modifySchedule(ScheduleDto scheduleDto);
 
     /**
      * 스케쥴 삭제

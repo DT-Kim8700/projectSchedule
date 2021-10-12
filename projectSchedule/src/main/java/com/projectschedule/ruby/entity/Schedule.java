@@ -9,7 +9,8 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 public class Schedule {
 
-    public Schedule(Long id, String scheduleName, LocalDateTime startDay, LocalDateTime endDay, ProgressStatus status) {
+    public Schedule(Long id, String scheduleName, LocalDate startDay, LocalDate endDay, ProgressStatus status) {
         this.id = id;
         this.scheduleName = scheduleName;
         this.startDay = startDay;
@@ -43,13 +44,13 @@ public class Schedule {
     @GeneratedValue
     @Column(name = "schedule_id")
     private Long id;
-    @NotEmpty
+    @NotNull @NotEmpty
     private String scheduleName;            // 스케쥴 명
-    @NotEmpty @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime startDay;         // 시작일
-    @NotEmpty @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime endDay;           // 종료일
-    @NotEmpty @Enumerated(STRING)
+    @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startDay;             // 시작일
+    @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDay;               // 종료일
+    @NotNull @Enumerated(STRING)
     private ProgressStatus status;          // 진행상태
 
     /**
@@ -65,6 +66,57 @@ public class Schedule {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    public Schedule(Schedule.Builder builder) {
+        this.scheduleName = builder.scheduleName;
+        this.startDay = builder.startDay;
+        this.endDay = builder.endDay;
+        this.status = builder.status;
+        this.member = builder.member;
+    }
+
+    /**
+     * 빌더
+     */
+    public static class Builder {
+
+        private String scheduleName;
+        private LocalDate startDay;
+        private LocalDate endDay;
+        private ProgressStatus status;
+        private Member member;
+
+        public Builder(){}
+
+        public Schedule.Builder scheduleName(String scheduleName) {
+            this.scheduleName = scheduleName;
+            return this;
+        }
+
+        public Schedule.Builder startDay(LocalDate startDay) {
+            this.startDay = startDay;
+            return this;
+        }
+
+        public Schedule.Builder endDay(LocalDate endDay) {
+            this.endDay = endDay;
+            return this;
+        }
+
+        public Schedule.Builder status(ProgressStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        public Schedule.Builder member(Member member) {
+            this.member = member;
+            return this;
+        }
+
+        public Schedule build() {
+            return new Schedule(this);
+        }
+    }
     
     // 연관관계 편의 메서드 - 양쪽애 모두 만들 수 있지만 다(N) 쪽에 하나만 만들어도 충분하다
     public void setMember(Member member){
@@ -79,15 +131,43 @@ public class Schedule {
     /** 비즈니스 메서드 */
 
     /**
-     * 스케쥴 갱신
-     * @param schedule
+     * 스케쥴 이름 변경
+     * @param scheduleName
      * @return
      */
-    public Schedule modifySchedule(Schedule schedule) {
-        this.scheduleName = schedule.getScheduleName();
-        this.startDay = schedule.getStartDay();
-        this.endDay = schedule.getEndDay();
-        this.status = schedule.getStatus();
+    public Schedule modifyScheduleName(String scheduleName) {
+        this.scheduleName = scheduleName;
+        return this;
+    }
+
+    /**
+     * 스케쥴 시작날짜 변경
+     * @param startDay
+     * @return
+     */
+    public Schedule modifyStartDay(LocalDate startDay) {
+        this.startDay = startDay;
+
+        return this;
+    }
+
+    /**
+     * 스케쥴 종료날짜 변경
+     * @param endDay
+     * @return
+     */
+    public Schedule modifyEndDay(LocalDate endDay) {
+        this.endDay = endDay;
+        return this;
+    }
+
+    /**
+     * 스케쥴 시작날짜 변경
+     * @param status
+     * @return
+     */
+    public Schedule modifyStatus(ProgressStatus status) {
+        this.status = status;
 
         return this;
     }

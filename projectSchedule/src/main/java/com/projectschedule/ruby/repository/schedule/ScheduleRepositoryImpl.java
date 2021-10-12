@@ -32,6 +32,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom{
                                     .where(schedule.member.id.eq(memberId))
                                     .offset(pageable.getOffset())
                                     .limit(pageable.getPageSize())
+                                    .orderBy(schedule.id.desc())
                                     .fetch();
 
         JPAQuery<Schedule> countQuery = queryFactory
