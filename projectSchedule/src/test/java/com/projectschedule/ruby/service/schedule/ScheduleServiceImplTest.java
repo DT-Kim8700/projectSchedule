@@ -2,9 +2,9 @@ package com.projectschedule.ruby.service.schedule;
 
 import com.projectschedule.ruby.entity.Member;
 import com.projectschedule.ruby.entity.Schedule;
+import com.projectschedule.ruby.entity.ScheduleItem;
 import com.projectschedule.ruby.entity.dto.MemberDto;
 import com.projectschedule.ruby.entity.enumItem.ProgressStatus;
-import com.projectschedule.ruby.repository.member.MemberRepository;
 import com.projectschedule.ruby.repository.schedule.ScheduleRepository;
 import com.projectschedule.ruby.service.member.MemberService;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -34,6 +34,8 @@ class ScheduleServiceImplTest {
     MemberService memberService;
     @Autowired
     ScheduleService scheduleService;
+    @Autowired
+    ScheduleRepository ScheduleRepository;
 
     @BeforeEach
     public void before() {
@@ -69,6 +71,36 @@ class ScheduleServiceImplTest {
 
             em.persist(schedule);
         }
+
+        PageRequest pageRequest = PageRequest.of(0, 6);
+        Page<Schedule> schedules = scheduleService.lookupScheduleList(member.getId(), pageRequest);
+        Schedule schedule = schedules.getContent().get(0);
+
+        for (int i = 1; i <= 4; i++) {
+            ScheduleItem scheduleItem = new ScheduleItem.Builder()
+                    .itemName("알고리즘 공부" + i)
+                    .progress(15 * i)
+                    .schedule(schedule)
+                    .build();
+
+            em.persist(scheduleItem);
+        }
+
+        schedule = schedules.getContent().get(1);
+
+        for (int i = 1; i <= 4; i++) {
+            ScheduleItem scheduleItem = new ScheduleItem.Builder()
+                    .itemName("JPA 공부" + i)
+                    .progress(15 * i)
+                    .schedule(schedule)
+                    .build();
+
+            em.persist(scheduleItem);
+        }
+
+        em.flush();
+        em.clear();
+
         queryFactory = new JPAQueryFactory(em);
     }
 
@@ -112,6 +144,31 @@ class ScheduleServiceImplTest {
         assertThat(schedules.getTotalElements()).isEqualTo(0);
         assertThat(schedules.getTotalPages()).isEqualTo(0);
     }
+
+    /**
+     * 스케쥴 목록 조회3
+     */
+    @Test
+    void lookupScheduleList3() {
+        String email = "ruby8700@naver.com";
+        String password = "12345678";
+
+        MemberDto member = new MemberDto(email, password);
+        Member loginMember = memberService.loginMember(member);
+        Long loginId = loginMember.getId();
+
+        PageRequest pageRequest = PageRequest.of(0, 6);
+        Page<Schedule> schedules = scheduleService.lookupScheduleList(loginId, pageRequest);
+
+        for (Schedule schedule :schedules) {
+            System.out.println(schedule.getScheduleName());
+            for (ScheduleItem item :schedule.getScheduleItemList()) {
+                System.out.println(item.getItemName());
+            }
+        }
+
+    }
+
 
     /**
      * 스케쥴 등록

@@ -37,6 +37,9 @@ class MemberServiceImplTest {
         em.persist(member);
 
         queryFactory = new JPAQueryFactory(em);
+
+        em.flush();
+        em.clear();
     }
 
     /**

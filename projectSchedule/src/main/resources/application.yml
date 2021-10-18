@@ -13,9 +13,11 @@ spring:
     # hibernate
     hibernate:
       ddl-auto: create
+    properties:
+      show_sql: true
+      format_sql: true
     generate-ddl: true
-    open-in-view: true
-    show-sql: true
+    open-in-view: false
 
 logging:
   level:

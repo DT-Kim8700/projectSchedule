@@ -1,6 +1,7 @@
 package com.projectschedule.ruby.repository.schedule;
 
 import com.projectschedule.ruby.entity.QSchedule;
+import com.projectschedule.ruby.entity.QScheduleItem;
 import com.projectschedule.ruby.entity.Schedule;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -12,6 +13,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import java.util.List;
 
 import static com.projectschedule.ruby.entity.QSchedule.schedule;
+import static com.projectschedule.ruby.entity.QScheduleItem.scheduleItem;
 
 @RequiredArgsConstructor
 public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom{
@@ -27,8 +29,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom{
     @Override
     public Page<Schedule> selectScheduleByMember(Long memberId, Pageable pageable) {
         List<Schedule> scheduleList = queryFactory
-                                    .select(schedule)
-                                    .from(schedule)
+                                    .selectFrom(schedule)
                                     .where(schedule.member.id.eq(memberId))
                                     .offset(pageable.getOffset())
                                     .limit(pageable.getPageSize())

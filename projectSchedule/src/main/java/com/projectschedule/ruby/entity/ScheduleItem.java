@@ -3,14 +3,12 @@ package com.projectschedule.ruby.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -25,6 +23,7 @@ import static javax.persistence.FetchType.LAZY;
  */
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class ScheduleItem {
 
     @Id
@@ -33,12 +32,49 @@ public class ScheduleItem {
     private Long id;
     @NotEmpty
     private String itemName;                // 세부항목 명
-    @NotEmpty @Min(0) @Max(100)
-    private Long progress;                  // 진행률
+    @NotNull @Min(0) @Max(100)
+    private Integer progress;                  // 진행률
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
+
+    public ScheduleItem(Builder builder) {
+        this.itemName = builder.itemName;
+        this.progress = builder.progress;
+        this.schedule = builder.schedule;
+    }
+
+    /**
+     * 빌더
+     */
+    public static class Builder {
+
+        private String itemName;
+        private Integer progress;
+        private Schedule schedule;
+
+        public Builder(){}
+
+        public Builder itemName(String itemName) {
+            this.itemName = itemName;
+            return this;
+        }
+
+        public Builder progress(Integer progress) {
+            this.progress = progress;
+            return this;
+        }
+
+        public Builder schedule(Schedule schedule) {
+            this.schedule = schedule;
+            return this;
+        }
+
+        public ScheduleItem build() {
+            return new ScheduleItem(this);
+        }
+    }
 
     // 연관관계 편의 메서드
     public void setSchedule(Schedule schedule){

@@ -35,7 +35,7 @@ public interface ScheduleService {
      * @param schedule
      * @return
      */
-    void modifySchedule(ScheduleDto scheduleDto);
+    void modifySchedule(Schedule schedule);
 
     /**
      * 스케쥴 삭제

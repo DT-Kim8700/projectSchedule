@@ -26,7 +26,7 @@ public class QScheduleItem extends EntityPathBase<ScheduleItem> {
 
     public final StringPath itemName = createString("itemName");
 
-    public final NumberPath<Long> progress = createNumber("progress", Long.class);
+    public final NumberPath<Integer> progress = createNumber("progress", Integer.class);
 
     public final QSchedule schedule;
 

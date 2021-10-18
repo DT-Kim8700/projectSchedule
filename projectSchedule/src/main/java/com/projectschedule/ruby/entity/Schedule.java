@@ -1,12 +1,11 @@
 package com.projectschedule.ruby.entity;
 
 import com.projectschedule.ruby.entity.enumItem.ProgressStatus;
-import com.querydsl.core.types.dsl.DateTimePath;
-import com.querydsl.core.types.dsl.EnumPath;
-import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.core.types.dsl.StringPath;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -67,7 +66,7 @@ public class Schedule {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public Schedule(Schedule.Builder builder) {
+    public Schedule(Builder builder) {
         this.scheduleName = builder.scheduleName;
         this.startDay = builder.startDay;
         this.endDay = builder.endDay;
@@ -88,27 +87,27 @@ public class Schedule {
 
         public Builder(){}
 
-        public Schedule.Builder scheduleName(String scheduleName) {
+        public Builder scheduleName(String scheduleName) {
             this.scheduleName = scheduleName;
             return this;
         }
 
-        public Schedule.Builder startDay(LocalDate startDay) {
+        public Builder startDay(LocalDate startDay) {
             this.startDay = startDay;
             return this;
         }
 
-        public Schedule.Builder endDay(LocalDate endDay) {
+        public Builder endDay(LocalDate endDay) {
             this.endDay = endDay;
             return this;
         }
 
-        public Schedule.Builder status(ProgressStatus status) {
+        public Builder status(ProgressStatus status) {
             this.status = status;
             return this;
         }
 
-        public Schedule.Builder member(Member member) {
+        public Builder member(Member member) {
             this.member = member;
             return this;
         }
@@ -125,6 +124,10 @@ public class Schedule {
         if (!member.getScheduleList().contains(this)){
             member.getScheduleList().add(this);
         }
+    }
+
+    public void setScheduleItemList(List<ScheduleItem> scheduleItemList) {
+        this.scheduleItemList = scheduleItemList;
     }
 
 
