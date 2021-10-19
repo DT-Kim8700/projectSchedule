@@ -19,10 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -97,5 +93,4 @@ class ScheduleItemServiceImplTest {
 
         queryFactory = new JPAQueryFactory(em);
     }
-
 }

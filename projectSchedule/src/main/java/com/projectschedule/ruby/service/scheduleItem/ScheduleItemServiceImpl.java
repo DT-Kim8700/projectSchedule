@@ -1,14 +1,12 @@
 package com.projectschedule.ruby.service.scheduleItem;
 
-import com.projectschedule.ruby.entity.ScheduleItem;
-import com.projectschedule.ruby.repository.scheduleItem.ScheduleItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ScheduleItemServiceImpl implements ScheduleItemService{
 
 }

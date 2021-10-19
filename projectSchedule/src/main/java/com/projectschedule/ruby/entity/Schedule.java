@@ -56,7 +56,7 @@ public class Schedule {
      * Schedule 과 ScheduleItem 의 연관관계의 주인은  ScheduleItem 이다.
      *  - 연관관계의 주인이 아니면 mappedBy 속성을 사용하고 연관관계의 주인 필드 이름의 값으로 입력해야한다.
      */
-    @OneToMany(mappedBy = "schedule" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "schedule")
     private List<ScheduleItem> scheduleItemList = new ArrayList<>();
 
     /**
@@ -126,8 +126,12 @@ public class Schedule {
         }
     }
 
-    public void setScheduleItemList(List<ScheduleItem> scheduleItemList) {
-        this.scheduleItemList = scheduleItemList;
+    public void addScheduleItemList(ScheduleItem scheduleItem) {
+        scheduleItemList.add(scheduleItem);
+
+        if (scheduleItem.getSchedule() != this) {
+            scheduleItem.setSchedule(this);
+        }
     }
 
 

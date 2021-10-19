@@ -30,14 +30,6 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     @Transactional(readOnly = true)
     public Page<Schedule> lookupScheduleList(Long memberId, Pageable pageable) {
-        Page<Schedule> schedules = scheduleRepository.selectScheduleByMember(memberId, pageable);
-
-        for (Schedule schedule : schedules) {
-            Long scheduleId = schedule.getId();
-            List<ScheduleItem> scheduleItems = scheduleItemRepository.findScheduleItemsBySchedule(scheduleId);
-            schedule.setScheduleItemList(scheduleItems);
-        }
-
         return scheduleRepository.selectScheduleByMember(memberId, pageable);
     }
 

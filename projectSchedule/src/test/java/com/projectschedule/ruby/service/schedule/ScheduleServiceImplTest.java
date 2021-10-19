@@ -70,32 +70,18 @@ class ScheduleServiceImplTest {
                     .build();
 
             em.persist(schedule);
-        }
 
-        PageRequest pageRequest = PageRequest.of(0, 6);
-        Page<Schedule> schedules = scheduleService.lookupScheduleList(member.getId(), pageRequest);
-        Schedule schedule = schedules.getContent().get(0);
+            if (i > 27) {
+                for (int j = 1; j <= 4; j++) {
+                    ScheduleItem scheduleItem = new ScheduleItem.Builder()
+                            .itemName("알고리즘 공부" + i + " : " + j)
+                            .progress(15 * j)
+                            .schedule(schedule)
+                            .build();
 
-        for (int i = 1; i <= 4; i++) {
-            ScheduleItem scheduleItem = new ScheduleItem.Builder()
-                    .itemName("알고리즘 공부" + i)
-                    .progress(15 * i)
-                    .schedule(schedule)
-                    .build();
-
-            em.persist(scheduleItem);
-        }
-
-        schedule = schedules.getContent().get(1);
-
-        for (int i = 1; i <= 4; i++) {
-            ScheduleItem scheduleItem = new ScheduleItem.Builder()
-                    .itemName("JPA 공부" + i)
-                    .progress(15 * i)
-                    .schedule(schedule)
-                    .build();
-
-            em.persist(scheduleItem);
+                    em.persist(scheduleItem);
+                }
+            }
         }
 
         em.flush();
@@ -157,8 +143,12 @@ class ScheduleServiceImplTest {
         Member loginMember = memberService.loginMember(member);
         Long loginId = loginMember.getId();
 
+        System.out.println("===============lookupScheduleList3====================");
+
         PageRequest pageRequest = PageRequest.of(0, 6);
         Page<Schedule> schedules = scheduleService.lookupScheduleList(loginId, pageRequest);
+
+        System.out.println("size: " + schedules.getContent().size());
 
         for (Schedule schedule :schedules) {
             System.out.println(schedule.getScheduleName());
@@ -167,6 +157,7 @@ class ScheduleServiceImplTest {
             }
         }
 
+        System.out.println("===============lookupScheduleList3====================");
     }
 
 

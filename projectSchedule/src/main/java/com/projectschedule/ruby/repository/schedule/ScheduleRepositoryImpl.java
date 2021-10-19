@@ -30,10 +30,12 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom{
     public Page<Schedule> selectScheduleByMember(Long memberId, Pageable pageable) {
         List<Schedule> scheduleList = queryFactory
                                     .selectFrom(schedule)
+                                    .leftJoin(schedule.scheduleItemList, scheduleItem).fetchJoin()
                                     .where(schedule.member.id.eq(memberId))
                                     .offset(pageable.getOffset())
                                     .limit(pageable.getPageSize())
                                     .orderBy(schedule.id.desc())
+                                    .distinct()
                                     .fetch();
 
         JPAQuery<Schedule> countQuery = queryFactory
