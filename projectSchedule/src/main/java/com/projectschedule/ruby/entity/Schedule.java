@@ -154,7 +154,6 @@ public class Schedule {
      */
     public Schedule modifyStartDay(LocalDate startDay) {
         this.startDay = startDay;
-
         return this;
     }
 
@@ -175,7 +174,6 @@ public class Schedule {
      */
     public Schedule modifyStatus(ProgressStatus status) {
         this.status = status;
-
         return this;
     }
 }

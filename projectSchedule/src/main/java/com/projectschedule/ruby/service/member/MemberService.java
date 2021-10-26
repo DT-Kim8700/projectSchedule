@@ -22,5 +22,5 @@ public interface MemberService {
      * @param member
      * @return
      */
-    Member loginMember(MemberDto member);
+    Member loginMember(Member member);
 }

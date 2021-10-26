@@ -1,7 +1,6 @@
 package com.projectschedule.ruby.repository.schedule;
 
-import com.projectschedule.ruby.entity.QSchedule;
-import com.projectschedule.ruby.entity.QScheduleItem;
+import com.projectschedule.ruby.entity.Member;
 import com.projectschedule.ruby.entity.Schedule;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -22,26 +21,25 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom{
 
     /**
      * 유저의 스케쥴 목록 조회
-     * @param memberId
+     * @param member
      * @param pageable
      * @return
      */
     @Override
-    public Page<Schedule> selectScheduleByMember(Long memberId, Pageable pageable) {
+    public Page<Schedule> selectScheduleByMember(Member member, Pageable pageable) {
         List<Schedule> scheduleList = queryFactory
                                     .selectFrom(schedule)
                                     .leftJoin(schedule.scheduleItemList, scheduleItem).fetchJoin()
-                                    .where(schedule.member.id.eq(memberId))
+                                    .where(schedule.member.eq(member))
                                     .offset(pageable.getOffset())
                                     .limit(pageable.getPageSize())
-                                    .orderBy(schedule.id.desc())
                                     .distinct()
                                     .fetch();
 
         JPAQuery<Schedule> countQuery = queryFactory
                 .select(schedule)
                 .from(schedule)
-                .where(schedule.member.id.eq(memberId));
+                .where(schedule.member.eq(member));
 
         return PageableExecutionUtils.getPage(scheduleList, pageable, countQuery::fetchCount);
     }

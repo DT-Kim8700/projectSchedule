@@ -40,7 +40,7 @@ public class MemberServiceImpl implements MemberService{
      * @return
      */
     @Override
-    public Member loginMember(MemberDto member) {
+    public Member loginMember(Member member) {
         String email = member.getEmail();
         String password= member.getPassword();
 

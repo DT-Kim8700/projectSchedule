@@ -98,12 +98,15 @@ class ScheduleServiceImplTest {
         String email = "ruby8700@naver.com";
         String password = "12345678";
 
-        MemberDto member = new MemberDto(email, password);
+        Member member = new Member.Builder()
+                .email(email)
+                .password(password)
+                .build();
+
         Member loginMember = memberService.loginMember(member);
-        Long loginId = loginMember.getId();
 
         PageRequest pageRequest = PageRequest.of(1, 6);
-        Page<Schedule> schedules = scheduleService.lookupScheduleList(loginId, pageRequest);
+        Page<Schedule> schedules = scheduleService.lookupScheduleList(loginMember, pageRequest);
 
         assertThat(schedules.getSize()).isEqualTo(6);
         assertThat(schedules.getContent()).extracting("scheduleName")
@@ -120,12 +123,15 @@ class ScheduleServiceImplTest {
         String email = "eun@naver.com";
         String password = "12345678";
 
-        MemberDto member = new MemberDto(email, password);
+        Member member = new Member.Builder()
+                .email(email)
+                .password(password)
+                .build();
+
         Member loginMember = memberService.loginMember(member);
-        Long loginId = loginMember.getId();
 
         PageRequest pageRequest = PageRequest.of(1, 6);
-        Page<Schedule> schedules = scheduleService.lookupScheduleList(loginId, pageRequest);
+        Page<Schedule> schedules = scheduleService.lookupScheduleList(loginMember, pageRequest);
 
         assertThat(schedules.getTotalElements()).isEqualTo(0);
         assertThat(schedules.getTotalPages()).isEqualTo(0);
@@ -139,14 +145,17 @@ class ScheduleServiceImplTest {
         String email = "ruby8700@naver.com";
         String password = "12345678";
 
-        MemberDto member = new MemberDto(email, password);
+        Member member = new Member.Builder()
+                .email(email)
+                .password(password)
+                .build();
+
         Member loginMember = memberService.loginMember(member);
-        Long loginId = loginMember.getId();
 
         System.out.println("===============lookupScheduleList3====================");
 
         PageRequest pageRequest = PageRequest.of(0, 6);
-        Page<Schedule> schedules = scheduleService.lookupScheduleList(loginId, pageRequest);
+        Page<Schedule> schedules = scheduleService.lookupScheduleList(loginMember, pageRequest);
 
         System.out.println("size: " + schedules.getContent().size());
 
@@ -170,9 +179,12 @@ class ScheduleServiceImplTest {
         String email = "ruby8700@naver.com";
         String password = "12345678";
 
-        MemberDto member = new MemberDto(email, password);
+        Member member = new Member.Builder()
+                .email(email)
+                .password(password)
+                .build();
+
         Member loginMember = memberService.loginMember(member);
-        Long loginId = loginMember.getId();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -192,7 +204,7 @@ class ScheduleServiceImplTest {
 
         // then
         PageRequest pageRequest = PageRequest.of(0, 1);
-        Page<Schedule> schedules = scheduleService.lookupScheduleList(loginId, pageRequest);
+        Page<Schedule> schedules = scheduleService.lookupScheduleList(loginMember, pageRequest);
         assertThat(schedules.getContent()).extracting("scheduleName")
                 .containsExactly("스케쥴");
     }
@@ -206,12 +218,15 @@ class ScheduleServiceImplTest {
         String email = "ruby8700@naver.com";
         String password = "12345678";
 
-        MemberDto member = new MemberDto(email, password);
+        Member member = new Member.Builder()
+                .email(email)
+                .password(password)
+                .build();
+
         Member loginMember = memberService.loginMember(member);
-        Long loginId = loginMember.getId();
 
         PageRequest pageRequest = PageRequest.of(0, 1);
-        Schedule schedule = scheduleService.lookupScheduleList(loginId, pageRequest).getContent().get(0);
+        Schedule schedule = scheduleService.lookupScheduleList(loginMember, pageRequest).getContent().get(0);
 
         // when
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -223,7 +238,7 @@ class ScheduleServiceImplTest {
                 .modifyEndDay(endDay)
                 .modifyStatus(ProgressStatus.COMPLETE);
 
-        Schedule findSchedule = scheduleService.lookupScheduleList(loginId, pageRequest).getContent().get(0);
+        Schedule findSchedule = scheduleService.lookupScheduleList(loginMember, pageRequest).getContent().get(0);
 
         // then
         assertThat(findSchedule.getId()).isEqualTo(schedule.getId());

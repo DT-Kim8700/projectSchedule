@@ -1,5 +1,6 @@
 package com.projectschedule.ruby.entity;
 
+import com.projectschedule.ruby.entity.enumItem.ProgressStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import java.time.LocalDate;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -83,5 +86,27 @@ public class ScheduleItem {
         if (!schedule.getScheduleItemList().contains(this)){
             schedule.getScheduleItemList().add(this);
         }
+    }
+
+    /** 비즈니스 메서드 */
+
+    /**
+     * 세부항목 이름 변경
+     * @param itemName
+     * @return
+     */
+    public ScheduleItem modifyItemName(String itemName) {
+        this.itemName = itemName;
+        return this;
+    }
+
+    /**
+     * 세부항목 진행률 변경
+     * @param progress
+     * @return
+     */
+    public ScheduleItem modifyProgress(Integer progress) {
+        this.progress = progress;
+        return this;
     }
 }

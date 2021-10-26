@@ -1,7 +1,7 @@
 package com.projectschedule.ruby.service.schedule;
 
+import com.projectschedule.ruby.entity.Member;
 import com.projectschedule.ruby.entity.Schedule;
-import com.projectschedule.ruby.entity.ScheduleItem;
 import com.projectschedule.ruby.repository.schedule.ScheduleRepository;
 import com.projectschedule.ruby.repository.scheduleItem.ScheduleItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,14 +21,14 @@ public class ScheduleServiceImpl implements ScheduleService{
     /**
      * 스케쥴 목록 조회
      *
-     * @param memberId
+     * @param member
      * @param pageable
      * @return
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<Schedule> lookupScheduleList(Long memberId, Pageable pageable) {
-        return scheduleRepository.selectScheduleByMember(memberId, pageable);
+    public Page<Schedule> lookupScheduleList(Member member, Pageable pageable) {
+        return scheduleRepository.selectScheduleByMember(member, pageable);
     }
 
     /**
@@ -52,14 +50,13 @@ public class ScheduleServiceImpl implements ScheduleService{
      */
     @Override
     public void modifySchedule(Schedule schedule) {
-        Schedule fineSchedule = scheduleRepository.findById(schedule.getId()).orElseGet(null);
-        if (fineSchedule != null) {
-            fineSchedule.modifyScheduleName("스케쥴변경")
+        Schedule findSchedule = scheduleRepository.findById(schedule.getId()).orElseGet(null);
+        if (findSchedule != null) {
+            findSchedule.modifyScheduleName(schedule.getScheduleName())
                     .modifyStartDay(schedule.getStartDay())
                     .modifyEndDay(schedule.getEndDay())
                     .modifyStatus(schedule.getStatus());
         }
-
         // 변경감지를 통해서 수정한다. 먼저 이전 값을 조회해와서 모든 필드값을 채운 영속 객체를 얻은 다음 변경된 값만 변경 적용
         // 그렇지 않으면 채우지 않은 필드가 null 로 반영이 될 위험이 있다.
     }
@@ -67,12 +64,12 @@ public class ScheduleServiceImpl implements ScheduleService{
     /**
      * 스케쥴 삭제 - 하위 ScheduleItem 도 모두 삭제
      *
-     * @param scheduleId
+     * @param schedule
      * @return
      */
     @Override
-    public void removeSchedule(Long scheduleId) {
-        scheduleItemRepository.deleteScheduleItemBySchedule(scheduleId);
-        scheduleRepository.deleteById(scheduleId);
+    public void removeSchedule(Schedule schedule) {
+        scheduleItemRepository.deleteScheduleItemBySchedule(schedule);
+        scheduleRepository.delete(schedule);
     }
 }

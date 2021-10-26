@@ -1,5 +1,6 @@
 package com.projectschedule.ruby.repository.scheduleItem;
 
+import com.projectschedule.ruby.entity.Schedule;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -13,12 +14,13 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepositoryCustom 
     /**
      * Schedule 에 해당하는 ScheduleItem 목록 삭제
      *
-     * @param scheduleId
+     * @param schedule
      */
     @Override
-    public void deleteScheduleItemBySchedule(Long scheduleId) {
+    public void deleteScheduleItemBySchedule(Schedule schedule) {
         queryFactory
                 .delete(scheduleItem)
-                .where(scheduleItem.schedule.id.eq(scheduleId));
+                .where(scheduleItem.schedule.eq(schedule))
+                .execute();
     }
 }

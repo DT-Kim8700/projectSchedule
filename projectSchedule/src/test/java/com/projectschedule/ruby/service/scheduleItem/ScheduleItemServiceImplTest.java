@@ -5,6 +5,9 @@ import com.projectschedule.ruby.entity.Schedule;
 import com.projectschedule.ruby.entity.ScheduleItem;
 import com.projectschedule.ruby.entity.dto.MemberDto;
 import com.projectschedule.ruby.entity.enumItem.ProgressStatus;
+import com.projectschedule.ruby.repository.member.MemberRepository;
+import com.projectschedule.ruby.repository.scheduleItem.ScheduleItemRepository;
+import com.projectschedule.ruby.repository.scheduleItem.ScheduleItemRepositoryCustom;
 import com.projectschedule.ruby.service.member.MemberService;
 import com.projectschedule.ruby.service.schedule.ScheduleService;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -19,6 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -27,6 +33,11 @@ class ScheduleItemServiceImplTest {
     @Autowired
     EntityManager em;
     JPAQueryFactory queryFactory;
+
+    @Autowired
+    MemberRepository memberRepository;
+    @Autowired
+    ScheduleItemRepository scheduleItemRepository;
 
     @Autowired
     MemberService memberService;
@@ -63,7 +74,7 @@ class ScheduleItemServiceImplTest {
         }
 
         PageRequest pageRequest = PageRequest.of(0, 6);
-        Page<Schedule> schedules = scheduleService.lookupScheduleList(member.getId(), pageRequest);
+        Page<Schedule> schedules = scheduleService.lookupScheduleList(member, pageRequest);
         Schedule schedule = schedules.getContent().get(0);
 
         for (int i = 1; i <= 4; i++) {
@@ -92,5 +103,45 @@ class ScheduleItemServiceImplTest {
         em.clear();
 
         queryFactory = new JPAQueryFactory(em);
+    }
+
+    /**
+     * 스케쥴 세부목록 수정
+     */
+    @Test
+    void modifyScheduleItem() {
+        String email = "ruby8700@naver.com";
+        String password = "12345678";
+
+        Member member = new Member.Builder()
+                .email(email)
+                .password(password)
+                .build();
+
+        Member loginMember = memberService.loginMember(member);
+
+        PageRequest pageRequest = PageRequest.of(0, 6);
+        Page<Schedule> schedules = scheduleService.lookupScheduleList(loginMember, pageRequest);
+        List<ScheduleItem> scheduleItemList = schedules.getContent().get(0).getScheduleItemList();
+
+        assertThat(schedules.getSize()).isEqualTo(6);
+        assertThat(scheduleItemList).extracting("itemName")
+                .containsExactly("알고리즘 공부1", "알고리즘 공부2", "알고리즘 공부3", "알고리즘 공부4");
+
+
+        for (ScheduleItem item : scheduleItemList) {
+            item.modifyItemName("알고리즘").modifyProgress(100);
+            ScheduleItemService.modifyScheduleItem(item);
+        }
+
+        em.flush();
+        em.clear();
+
+        schedules = scheduleService.lookupScheduleList(loginMember, pageRequest);
+        scheduleItemList = schedules.getContent().get(0).getScheduleItemList();
+        assertThat(scheduleItemList).extracting("itemName")
+                .containsExactly("알고리즘", "알고리즘", "알고리즘", "알고리즘");
+        assertThat(scheduleItemList).extracting("progress")
+                .containsExactly(100, 100, 100, 100);
     }
 }

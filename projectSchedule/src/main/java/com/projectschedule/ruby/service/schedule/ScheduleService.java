@@ -17,11 +17,11 @@ public interface ScheduleService {
 
     /**
      * 스케쥴 목록 조회
-     * @param memberId
+     * @param member
      * @param pageable
      * @return
      */
-    Page<Schedule> lookupScheduleList(Long memberId, Pageable pageable);
+    Page<Schedule> lookupScheduleList(Member member, Pageable pageable);
 
     /**
      * 스케쥴 등록
@@ -39,8 +39,8 @@ public interface ScheduleService {
 
     /**
      * 스케쥴 삭제
-     * @param scheduleId
+     * @param schedule
      * @return
      */
-    void removeSchedule(Long scheduleId);
+    void removeSchedule(Schedule schedule);
 }
