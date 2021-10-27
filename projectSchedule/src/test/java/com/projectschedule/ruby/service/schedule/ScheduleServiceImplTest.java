@@ -3,92 +3,18 @@ package com.projectschedule.ruby.service.schedule;
 import com.projectschedule.ruby.entity.Member;
 import com.projectschedule.ruby.entity.Schedule;
 import com.projectschedule.ruby.entity.ScheduleItem;
-import com.projectschedule.ruby.entity.dto.MemberDto;
 import com.projectschedule.ruby.entity.enumItem.ProgressStatus;
-import com.projectschedule.ruby.repository.schedule.ScheduleRepository;
-import com.projectschedule.ruby.service.member.MemberService;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.junit.jupiter.api.BeforeEach;
+import com.projectschedule.ruby.service.TestSeed;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
-class ScheduleServiceImplTest {
-
-    @Autowired
-    EntityManager em;
-    JPAQueryFactory queryFactory;
-
-    @Autowired
-    MemberService memberService;
-    @Autowired
-    ScheduleService scheduleService;
-    @Autowired
-    ScheduleRepository ScheduleRepository;
-
-    @BeforeEach
-    public void before() {
-        Member member = new Member.Builder()
-                .email("ruby8700@naver.com")
-                .name("ruby")
-                .password("12345678")
-                .build();
-
-        em.persist(member);
-
-        Member member2 = new Member.Builder()
-                .email("eun@naver.com")
-                .name("eun")
-                .password("12345678")
-                .build();
-
-        em.persist(member2);
-
-        for (int i = 1; i <= 30; i++) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-            LocalDate startDay = LocalDate.parse("2021-10-11", formatter);
-            LocalDate endDay = LocalDate.parse("2021-10-21", formatter);
-
-            Schedule schedule = new Schedule.Builder()
-                    .scheduleName("스케쥴" + i)
-                    .startDay(startDay)
-                    .endDay(endDay)
-                    .status(ProgressStatus.PROCEED)
-                    .member(member)
-                    .build();
-
-            em.persist(schedule);
-
-            if (i > 27) {
-                for (int j = 1; j <= 4; j++) {
-                    ScheduleItem scheduleItem = new ScheduleItem.Builder()
-                            .itemName("알고리즘 공부" + i + " : " + j)
-                            .progress(15 * j)
-                            .schedule(schedule)
-                            .build();
-
-                    em.persist(scheduleItem);
-                }
-            }
-        }
-
-        em.flush();
-        em.clear();
-
-        queryFactory = new JPAQueryFactory(em);
-    }
+class ScheduleServiceImplTest extends TestSeed {
 
     /**
      * 스케쥴 목록 조회1
