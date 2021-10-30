@@ -8,5 +8,5 @@ package com.projectschedule.ruby.entity.enumItem;
  *      - 중단
  */
 public enum ProgressStatus {
-    WAITING, PROCEED, COMPLETE, STOP
+    WAITING, PROCEED, COMPLETE, STOP;
 }
