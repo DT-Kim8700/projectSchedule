@@ -1,7 +1,6 @@
 package com.projectschedule.ruby.entity;
 
 import com.projectschedule.ruby.entity.enumItem.ProgressStatus;
-import com.projectschedule.ruby.entity.enumItem.ScheduleKind;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,8 +50,6 @@ public class Schedule {
     @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDay;               // 종료일
     @NotNull @Enumerated(STRING)
-    private ScheduleKind kind;              // 스케쥴 종류
-    @NotNull @Enumerated(STRING)
     private ProgressStatus status;          // 진행상태
 
     /**
@@ -73,7 +70,6 @@ public class Schedule {
         this.scheduleName = builder.scheduleName;
         this.startDay = builder.startDay;
         this.endDay = builder.endDay;
-        this.kind = builder.kind;
         this.status = builder.status;
         this.member = builder.member;
     }
@@ -86,7 +82,6 @@ public class Schedule {
         private String scheduleName;
         private LocalDate startDay;
         private LocalDate endDay;
-        private ScheduleKind kind;
         private ProgressStatus status;
         private Member member;
 
@@ -104,11 +99,6 @@ public class Schedule {
 
         public Builder endDay(LocalDate endDay) {
             this.endDay = endDay;
-            return this;
-        }
-
-        public Builder kind(ScheduleKind kind) {
-            this.kind = kind;
             return this;
         }
 
@@ -178,7 +168,7 @@ public class Schedule {
     }
 
     /**
-     * 스케쥴 상태 변경
+     * 스케쥴 시작날짜 변경
      * @param status
      * @return
      */

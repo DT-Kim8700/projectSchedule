@@ -1,6 +1,5 @@
 package com.projectschedule.ruby.service.scheduleItem;
 
-import com.projectschedule.ruby.entity.Schedule;
 import com.projectschedule.ruby.entity.ScheduleItem;
 import com.projectschedule.ruby.repository.scheduleItem.ScheduleItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +13,7 @@ public class ScheduleItemServiceImpl implements ScheduleItemService{
 
     private final ScheduleItemRepository scheduleItemRepository;
 
+
     /**
      * 스케쥴 세부목록 등록
      *
@@ -22,7 +22,7 @@ public class ScheduleItemServiceImpl implements ScheduleItemService{
      */
     @Override
     public void addScheduleItem(ScheduleItem scheduleItem) {
-        scheduleItemRepository.save(scheduleItem);
+
     }
 
     /**
@@ -33,11 +33,7 @@ public class ScheduleItemServiceImpl implements ScheduleItemService{
      */
     @Override
     public void modifyScheduleItem(ScheduleItem scheduleItem) {
-        ScheduleItem findScheduleItem = scheduleItemRepository.findById(scheduleItem.getId()).orElseGet(null);
-        if (findScheduleItem != null) {
-            findScheduleItem.modifyItemName(scheduleItem.getItemName())
-                    .modifyProgress(scheduleItem.getProgress());
-        }
+
     }
 
     /**
@@ -48,6 +44,6 @@ public class ScheduleItemServiceImpl implements ScheduleItemService{
      */
     @Override
     public void removeScheduleItem(ScheduleItem scheduleItem) {
-        scheduleItemRepository.delete(scheduleItem);
+
     }
 }

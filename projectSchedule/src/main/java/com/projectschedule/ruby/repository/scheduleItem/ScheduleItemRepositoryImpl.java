@@ -12,7 +12,7 @@ public class ScheduleItemRepositoryImpl implements ScheduleItemRepositoryCustom 
     private final JPAQueryFactory queryFactory;
 
     /**
-     * Schedule 에 해당하는 ScheduleItem 목록 모두 삭제
+     * Schedule 에 해당하는 ScheduleItem 목록 삭제
      *
      * @param schedule
      */
