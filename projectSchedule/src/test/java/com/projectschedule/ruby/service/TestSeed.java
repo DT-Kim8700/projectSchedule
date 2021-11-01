@@ -4,6 +4,7 @@ import com.projectschedule.ruby.entity.Member;
 import com.projectschedule.ruby.entity.Schedule;
 import com.projectschedule.ruby.entity.ScheduleItem;
 import com.projectschedule.ruby.entity.enumItem.ProgressStatus;
+import com.projectschedule.ruby.entity.enumItem.ScheduleKind;
 import com.projectschedule.ruby.repository.member.MemberRepository;
 import com.projectschedule.ruby.repository.schedule.ScheduleRepository;
 import com.projectschedule.ruby.repository.scheduleItem.ScheduleItemRepository;
@@ -33,7 +34,7 @@ public class TestSeed {
     @Autowired
     protected MemberRepository memberRepository;
     @Autowired
-    protected ScheduleRepository ScheduleRepository;
+    protected ScheduleRepository scheduleRepository;
     @Autowired
     protected ScheduleItemRepository scheduleItemRepository;
 
@@ -64,6 +65,7 @@ public class TestSeed {
                     .scheduleName("스케쥴" + i)
                     .startDay(startDay)
                     .endDay(endDay)
+                    .kind(ScheduleKind.STUDY)
                     .status(ProgressStatus.PROCEED)
                     .member(member)
                     .build();
@@ -96,7 +98,6 @@ public class TestSeed {
 
             em.persist(scheduleItem);
         }
-
         em.flush();
         em.clear();
 

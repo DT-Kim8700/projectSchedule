@@ -12,7 +12,6 @@ import org.springframework.data.support.PageableExecutionUtils;
 import java.util.List;
 
 import static com.projectschedule.ruby.entity.QSchedule.schedule;
-import static com.projectschedule.ruby.entity.QScheduleItem.scheduleItem;
 
 @RequiredArgsConstructor
 public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom{
@@ -20,26 +19,25 @@ public class ScheduleRepositoryImpl implements ScheduleRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     /**
-     * 유저의 스케쥴 목록 조회
+     * 유저의 스케쥴 목록 조회 V2
+     *  -
      * @param member
      * @param pageable
      * @return
      */
     @Override
     public Page<Schedule> selectScheduleByMember(Member member, Pageable pageable) {
-        List<Schedule> scheduleList = queryFactory
-                                    .selectFrom(schedule)
-                                    .leftJoin(schedule.scheduleItemList, scheduleItem).fetchJoin()
-                                    .where(schedule.member.eq(member))
-                                    .offset(pageable.getOffset())
-                                    .limit(pageable.getPageSize())
-                                    .distinct()
-                                    .fetch();
-
         JPAQuery<Schedule> countQuery = queryFactory
                 .select(schedule)
                 .from(schedule)
                 .where(schedule.member.eq(member));
+
+        List<Schedule> scheduleList =  queryFactory
+                .selectFrom(schedule)
+                .where(schedule.member.eq(member))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
 
         return PageableExecutionUtils.getPage(scheduleList, pageable, countQuery::fetchCount);
     }

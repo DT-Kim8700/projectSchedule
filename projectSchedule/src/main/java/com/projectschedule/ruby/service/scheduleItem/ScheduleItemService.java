@@ -1,6 +1,9 @@
 package com.projectschedule.ruby.service.scheduleItem;
 
+import com.projectschedule.ruby.entity.Schedule;
 import com.projectschedule.ruby.entity.ScheduleItem;
+
+import java.util.List;
 
 /**
  * 스케쥴 세부목록 Service

@@ -8,9 +8,11 @@ import com.projectschedule.ruby.service.TestSeed;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,7 +31,7 @@ class ScheduleServiceImplTest extends TestSeed {
                 .password(password)
                 .build();
 
-        Member loginMember = memberService.loginMember(member);
+        Member loginMember = memberService.loginMember(email, password);
 
         PageRequest pageRequest = PageRequest.of(1, 6);
         Page<Schedule> schedules = scheduleService.lookupScheduleList(loginMember, pageRequest);
@@ -54,7 +56,7 @@ class ScheduleServiceImplTest extends TestSeed {
                 .password(password)
                 .build();
 
-        Member loginMember = memberService.loginMember(member);
+        Member loginMember = memberService.loginMember(email, password);
 
         PageRequest pageRequest = PageRequest.of(1, 6);
         Page<Schedule> schedules = scheduleService.lookupScheduleList(loginMember, pageRequest);
@@ -76,7 +78,7 @@ class ScheduleServiceImplTest extends TestSeed {
                 .password(password)
                 .build();
 
-        Member loginMember = memberService.loginMember(member);
+        Member loginMember = memberService.loginMember(email, password);
 
         System.out.println("===============lookupScheduleList3====================");
 
@@ -110,7 +112,7 @@ class ScheduleServiceImplTest extends TestSeed {
                 .password(password)
                 .build();
 
-        Member loginMember = memberService.loginMember(member);
+        Member loginMember = memberService.loginMember(email, password);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
@@ -144,12 +146,7 @@ class ScheduleServiceImplTest extends TestSeed {
         String email = "ruby8700@naver.com";
         String password = "12345678";
 
-        Member member = new Member.Builder()
-                .email(email)
-                .password(password)
-                .build();
-
-        Member loginMember = memberService.loginMember(member);
+        Member loginMember = memberService.loginMember(email, password);
 
         PageRequest pageRequest = PageRequest.of(0, 1);
         Schedule schedule = scheduleService.lookupScheduleList(loginMember, pageRequest).getContent().get(0);

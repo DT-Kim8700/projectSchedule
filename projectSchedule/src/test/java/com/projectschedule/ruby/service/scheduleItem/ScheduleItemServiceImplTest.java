@@ -27,7 +27,7 @@ class ScheduleItemServiceImplTest extends TestSeed {
                 .password(password)
                 .build();
 
-        Member loginMember = memberService.loginMember(member);
+        Member loginMember = memberService.loginMember(email, password);
 
         PageRequest pageRequest = PageRequest.of(0, 6);
         Page<Schedule> schedules = scheduleService.lookupScheduleList(loginMember, pageRequest);

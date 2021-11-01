@@ -41,12 +41,15 @@ public class MemberController {
         Member member = memberService.loginMember(email, password);
 
         // 검증 성공시 해당 회원의 스케쥴 정보 조회
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~");
         if (member != null) {
-            Pageable pageable = PageRequest.of(0, 6);
+            Pageable pageable = PageRequest.of(2, 6);
             Page<Schedule> schedules = scheduleService.lookupScheduleList(member, pageable);
+//            Page<Schedule> schedules = scheduleService.lookupScheduleListV2(member, pageable);
             ScheduleListDto scheduleListDto = new ScheduleListDto(schedules);
             return scheduleListDto;
         }
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~");
 
         return null;
     }

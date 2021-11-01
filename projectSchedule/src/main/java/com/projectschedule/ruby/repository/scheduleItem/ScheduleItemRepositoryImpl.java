@@ -1,9 +1,13 @@
 package com.projectschedule.ruby.repository.scheduleItem;
 
 import com.projectschedule.ruby.entity.Schedule;
+import com.projectschedule.ruby.entity.ScheduleItem;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
+import static com.projectschedule.ruby.entity.QSchedule.schedule;
 import static com.projectschedule.ruby.entity.QScheduleItem.scheduleItem;
 
 @RequiredArgsConstructor

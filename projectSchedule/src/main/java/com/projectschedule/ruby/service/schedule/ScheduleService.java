@@ -16,7 +16,7 @@ import org.springframework.data.domain.Pageable;
 public interface ScheduleService {
 
     /**
-     * 스케쥴 목록 조회
+     * 스케쥴 목록 조회 V2
      * @param member
      * @param pageable
      * @return
