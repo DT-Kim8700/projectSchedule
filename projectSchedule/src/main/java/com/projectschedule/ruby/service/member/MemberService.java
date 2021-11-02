@@ -19,9 +19,8 @@ public interface MemberService {
 
     /**
      * 회원 로그인
-     * @param email
-     * @param password
+     * @param member
      * @return
      */
-    Member loginMember(String email, String password);
+    Member loginMember(Member member);
 }

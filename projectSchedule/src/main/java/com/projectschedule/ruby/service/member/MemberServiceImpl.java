@@ -33,15 +33,17 @@ public class MemberServiceImpl implements MemberService{
         return member.getId();
     }
 
-
     /**
      * 회원 로그인 TODO : Securty 적용
-     * @param email
-     * @param password
+     *
+     * @param member
      * @return
      */
     @Override
-    public Member loginMember(String email, String password) {
+    public Member loginMember(Member member) {
+        String email = member.getEmail();
+        String password= member.getPassword();
+
         return memberRepository.findByEmailAndPassword(email, password);
     }
 
