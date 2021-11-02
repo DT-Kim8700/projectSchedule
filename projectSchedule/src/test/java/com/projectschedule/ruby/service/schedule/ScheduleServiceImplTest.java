@@ -170,4 +170,6 @@ class ScheduleServiceImplTest extends TestSeed {
         assertThat(findSchedule.getEndDay()).isEqualTo(endDay);
         assertThat(findSchedule.getStatus()).isEqualTo(ProgressStatus.COMPLETE);
     }
+
+
 }
