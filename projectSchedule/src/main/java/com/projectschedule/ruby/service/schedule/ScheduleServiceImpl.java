@@ -19,7 +19,7 @@ public class ScheduleServiceImpl implements ScheduleService{
     private final ScheduleItemRepository scheduleItemRepository;
 
     /**
-     * 스케쥴 목록 조회 V2
+     * 스케쥴 목록 조회
      *
      * @param member
      * @param pageable
@@ -28,7 +28,7 @@ public class ScheduleServiceImpl implements ScheduleService{
     @Override
     @Transactional(readOnly = true)
     public Page<Schedule> lookupScheduleList(Member member, Pageable pageable) {
-        Page<Schedule> schedules = scheduleRepository.selectScheduleByMember(member, pageable);
+        Page<Schedule> schedules = scheduleRepository.findAllByMember(member, pageable);
 
         for (Schedule schedule : schedules) {
             schedule.getScheduleItemList();

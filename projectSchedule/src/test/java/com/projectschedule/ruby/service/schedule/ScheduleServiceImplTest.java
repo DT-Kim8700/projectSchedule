@@ -171,5 +171,21 @@ class ScheduleServiceImplTest extends TestSeed {
         assertThat(findSchedule.getStatus()).isEqualTo(ProgressStatus.COMPLETE);
     }
 
+    @Test
+    void findAllByMember() {
+        // given
+        String email = "ruby8700@naver.com";
+        String password = "12345678";
 
+        Member loginMember = memberService.loginMember(email, password);
+
+        // when
+        Pageable pageable = PageRequest.of(0, 6);
+        Page<Schedule> schedules = scheduleRepository.findAllByMember(loginMember, pageable);
+
+        for (Schedule schedule : schedules) {
+            System.out.println(schedule.getScheduleName());
+            System.out.println(schedule.getScheduleItemList().size());
+        }
+    }
 }

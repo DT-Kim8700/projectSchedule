@@ -1,6 +1,7 @@
 package com.projectschedule.ruby.entity;
 
 import com.projectschedule.ruby.entity.enumItem.ProgressStatus;
+import com.projectschedule.ruby.entity.enumItem.ScheduleKind;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,6 +52,8 @@ public class Schedule {
     @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDay;               // 종료일
     @NotNull @Enumerated(STRING)
+    private ScheduleKind kind;              // 스케쥴 종류
+    @NotNull @Enumerated(STRING)
     private ProgressStatus status;          // 진행상태
 
     /**
@@ -72,6 +75,7 @@ public class Schedule {
         this.scheduleName = builder.scheduleName;
         this.startDay = builder.startDay;
         this.endDay = builder.endDay;
+        this.kind = builder.kind;
         this.status = builder.status;
         this.member = builder.member;
     }
@@ -84,6 +88,7 @@ public class Schedule {
         private String scheduleName;
         private LocalDate startDay;
         private LocalDate endDay;
+        private ScheduleKind kind;
         private ProgressStatus status;
         private Member member;
 
@@ -104,6 +109,11 @@ public class Schedule {
             return this;
         }
 
+        public Builder kind(ScheduleKind kind) {
+            this.kind = kind;
+            return this;
+        }
+
         public Builder status(ProgressStatus status) {
             this.status = status;
             return this;
@@ -118,7 +128,7 @@ public class Schedule {
             return new Schedule(this);
         }
     }
-    
+
     // 연관관계 편의 메서드 - 양쪽애 모두 만들 수 있지만 다(N) 쪽에 하나만 만들어도 충분하다
     public void setMember(Member member){
         this.member = member;
@@ -170,6 +180,7 @@ public class Schedule {
     }
 
     /**
+     * 스케쥴 상태 변경
      * 스케쥴 시작날짜 변경
      * @param status
      * @return
@@ -179,3 +190,4 @@ public class Schedule {
         return this;
     }
 }
+

@@ -1,8 +1,10 @@
 package com.projectschedule.ruby.repository.schedule;
 
+import com.projectschedule.ruby.entity.Member;
 import com.projectschedule.ruby.entity.Schedule;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  *  스케쥴 Repository
@@ -13,4 +15,11 @@ import org.springframework.stereotype.Repository;
  */
 public interface ScheduleRepository extends JpaRepository<Schedule, Long>, ScheduleRepositoryCustom {
 
+    /**
+     * 유저의 스케쥴 목록 조회
+     * @param member
+     * @param pageable
+     * @return
+     */
+    Page<Schedule> findAllByMember(Member member, Pageable pageable);
 }

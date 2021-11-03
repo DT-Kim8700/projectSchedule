@@ -26,6 +26,8 @@ public class QSchedule extends EntityPathBase<Schedule> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final EnumPath<com.projectschedule.ruby.entity.enumItem.ScheduleKind> kind = createEnum("kind", com.projectschedule.ruby.entity.enumItem.ScheduleKind.class);
+
     public final QMember member;
 
     public final ListPath<ScheduleItem, QScheduleItem> scheduleItemList = this.<ScheduleItem, QScheduleItem>createList("scheduleItemList", ScheduleItem.class, QScheduleItem.class, PathInits.DIRECT2);
