@@ -78,4 +78,14 @@ public class ScheduleServiceImpl implements ScheduleService{
         scheduleItemRepository.deleteScheduleItemBySchedule(schedule);
         scheduleRepository.delete(schedule);
     }
+
+    /**
+     * 스케줄 종류별 개수 반환
+     *
+     * @param member
+     */
+    @Override
+    public void lookupScheduleKindCountAll(Member member) {
+
+    }
 }

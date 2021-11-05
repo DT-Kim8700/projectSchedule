@@ -24,7 +24,7 @@ public class ScheduleItemServiceImpl implements ScheduleItemService{
      */
     @Override
     public void addScheduleItem(ScheduleItem scheduleItem) {
-
+        scheduleItemRepository.save(scheduleItem);
     }
 
     /**

@@ -1,18 +1,13 @@
 package com.projectschedule.ruby.entity.dto;
 
-import com.projectschedule.ruby.entity.ScheduleItem;
 import com.projectschedule.ruby.entity.enumItem.ProgressStatus;
 import com.projectschedule.ruby.entity.enumItem.ScheduleKind;
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;

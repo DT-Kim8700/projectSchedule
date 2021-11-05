@@ -2,7 +2,6 @@ package com.projectschedule.ruby.service.schedule;
 
 import com.projectschedule.ruby.entity.Member;
 import com.projectschedule.ruby.entity.Schedule;
-import com.projectschedule.ruby.entity.dto.ScheduleDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,11 +11,12 @@ import org.springframework.data.domain.Pageable;
  *  - 스케쥴 등록
  *  - 스케쥴 갱신
  *  - 스케쥴 삭제
+ *  - 스케줄 종류별 개수 반환
  */
 public interface ScheduleService {
 
     /**
-     * 스케쥴 목록 조회 V2
+     * 스케쥴 목록 조회
      * @param member
      * @param pageable
      * @return
@@ -43,4 +43,9 @@ public interface ScheduleService {
      * @return
      */
     void removeSchedule(Schedule schedule);
+
+    /**
+     * 스케줄 종류별 개수 반환
+     */
+    void lookupScheduleKindCountAll(Member member);
 }

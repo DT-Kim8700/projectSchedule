@@ -40,7 +40,7 @@ class ScheduleItemServiceImplTest extends TestSeed {
 
         for (ScheduleItem item : scheduleItemList) {
             item.modifyItemName("알고리즘").modifyProgress(100);
-            ScheduleItemService.modifyScheduleItem(item);
+            scheduleItemService.modifyScheduleItem(item);
         }
 
         em.flush();

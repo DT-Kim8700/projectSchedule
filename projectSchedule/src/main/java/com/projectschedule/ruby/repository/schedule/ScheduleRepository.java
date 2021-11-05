@@ -2,9 +2,12 @@ package com.projectschedule.ruby.repository.schedule;
 
 import com.projectschedule.ruby.entity.Member;
 import com.projectschedule.ruby.entity.Schedule;
+import com.projectschedule.ruby.entity.dto.ScheduleKindDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /**
  *  스케쥴 Repository
@@ -22,4 +25,11 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long>, Sched
      * @return
      */
     Page<Schedule> findAllByMember(Member member, Pageable pageable);
+
+    /**
+     * 스케쥴 종류별 개수 조회
+     * @param member
+     * @return
+     */
+    List<ScheduleKindDto> selectKindCountAll(Member member);
 }

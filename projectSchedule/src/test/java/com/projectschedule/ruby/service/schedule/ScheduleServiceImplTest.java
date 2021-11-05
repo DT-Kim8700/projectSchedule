@@ -3,6 +3,7 @@ package com.projectschedule.ruby.service.schedule;
 import com.projectschedule.ruby.entity.Member;
 import com.projectschedule.ruby.entity.Schedule;
 import com.projectschedule.ruby.entity.ScheduleItem;
+import com.projectschedule.ruby.entity.dto.ScheduleKindDto;
 import com.projectschedule.ruby.entity.enumItem.ProgressStatus;
 import com.projectschedule.ruby.service.TestSeed;
 import org.junit.jupiter.api.Test;
@@ -171,6 +172,10 @@ class ScheduleServiceImplTest extends TestSeed {
         assertThat(findSchedule.getStatus()).isEqualTo(ProgressStatus.COMPLETE);
     }
 
+    /**
+     * 유저의 스케쥴, 세부 목록 조회
+     * @return
+     */
     @Test
     void findAllByMember() {
         // given
@@ -187,5 +192,28 @@ class ScheduleServiceImplTest extends TestSeed {
             System.out.println(schedule.getScheduleName());
             System.out.println(schedule.getScheduleItemList().size());
         }
+    }
+
+    /**
+     * 스케쥴 종류별 개수 조회
+     * @param
+     * @return
+     */
+    @Test
+    public void selectKindCountAll() {
+        // given
+        String email = "ruby8700@naver.com";
+        String password = "12345678";
+
+        Member loginMember = memberService.loginMember(email, password);
+
+
+        List<ScheduleKindDto> scheduleKindDtos = scheduleRepository.selectKindCountAll(loginMember);
+
+        for (ScheduleKindDto scheduleKindDto : scheduleKindDtos) {
+            System.out.println(scheduleKindDto.getKind());
+            System.out.println(scheduleKindDto.getKindCount());
+        }
+
     }
 }

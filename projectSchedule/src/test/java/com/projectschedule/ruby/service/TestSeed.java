@@ -43,7 +43,7 @@ public class TestSeed {
     @Autowired
     protected ScheduleService scheduleService;
     @Autowired
-    protected ScheduleItemService ScheduleItemService;
+    protected ScheduleItemService scheduleItemService;
 
     @BeforeEach
     public void before() {
@@ -53,7 +53,7 @@ public class TestSeed {
                 .password("12345678")
                 .build();
 
-        em.persist(member);
+        memberRepository.save(member);
 
         for (int i = 1; i <= 30; i++) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -61,45 +61,43 @@ public class TestSeed {
             LocalDate startDay = LocalDate.parse("2021-10-11", formatter);
             LocalDate endDay = LocalDate.parse("2021-10-21", formatter);
 
+            String prefix = null;
+            ScheduleKind kind = ScheduleKind.STUDY;
+            if (i % 4 == 0) {
+                prefix = "알고리즘";
+                kind = ScheduleKind.STUDY;
+            } else if (i % 4 == 1) {
+                prefix = "악기연습";
+                kind = ScheduleKind.HOBBY;
+            } else if (i % 4 == 2) {
+                prefix = "맛집탐방";
+                kind = ScheduleKind.TRAVEL;
+            } else if (i % 4 == 3) {
+                prefix = "휴식";
+                kind = ScheduleKind.ECT;
+            }
+
             Schedule schedule = new Schedule.Builder()
-                    .scheduleName("스케쥴" + i)
+                    .scheduleName(prefix + i)
                     .startDay(startDay)
                     .endDay(endDay)
-                    .kind(ScheduleKind.STUDY)
+                    .kind(kind)
                     .status(ProgressStatus.PROCEED)
                     .member(member)
                     .build();
 
-            em.persist(schedule);
+            scheduleService.addSchedule(schedule);
+
+            for (int j = 0; j < 4; j++) {
+                ScheduleItem scheduleItem = new ScheduleItem.Builder()
+                        .itemName(prefix + j)
+                        .progress(15 * j)
+                        .schedule(schedule)
+                        .build();
+
+                scheduleItemService.addScheduleItem(scheduleItem);
+            }
         }
-
-        PageRequest pageRequest = PageRequest.of(0, 6);
-        Page<Schedule> schedules = scheduleService.lookupScheduleList(member, pageRequest);
-        Schedule schedule = schedules.getContent().get(0);
-
-        for (int i = 1; i <= 4; i++) {
-            ScheduleItem scheduleItem = new ScheduleItem.Builder()
-                    .itemName("알고리즘 공부" + i)
-                    .progress(15 * i)
-                    .schedule(schedule)
-                    .build();
-
-            em.persist(scheduleItem);
-        }
-
-        schedule = schedules.getContent().get(1);
-
-        for (int i = 1; i <= 4; i++) {
-            ScheduleItem scheduleItem = new ScheduleItem.Builder()
-                    .itemName("JPA 공부" + i)
-                    .progress(15 * i)
-                    .schedule(schedule)
-                    .build();
-
-            em.persist(scheduleItem);
-        }
-        em.flush();
-        em.clear();
 
         queryFactory = new JPAQueryFactory(em);
     }

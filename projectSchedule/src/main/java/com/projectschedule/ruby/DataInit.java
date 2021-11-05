@@ -6,17 +6,13 @@
 //import com.projectschedule.ruby.entity.enumItem.ProgressStatus;
 //import com.projectschedule.ruby.entity.enumItem.ScheduleKind;
 //import com.projectschedule.ruby.repository.member.MemberRepository;
-//import com.projectschedule.ruby.repository.schedule.ScheduleRepository;
 //import com.projectschedule.ruby.service.schedule.ScheduleService;
 //import com.projectschedule.ruby.service.scheduleItem.ScheduleItemService;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.boot.ApplicationArguments;
 //import org.springframework.boot.ApplicationRunner;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.PageRequest;
 //import org.springframework.stereotype.Component;
 //
-//import javax.persistence.EntityManager;
 //import java.time.LocalDate;
 //import java.time.format.DateTimeFormatter;
 //
@@ -43,26 +39,37 @@
 //            LocalDate startDay = LocalDate.parse("2021-10-11", formatter);
 //            LocalDate endDay = LocalDate.parse("2021-10-21", formatter);
 //
+//            String prefix = null;
+//            ScheduleKind kind = ScheduleKind.STUDY;
+//            if (i % 4 == 0) {
+//                prefix = "알고리즘";
+//                kind = ScheduleKind.STUDY;
+//            } else if (i % 4 == 1) {
+//                prefix = "악기연습";
+//                kind = ScheduleKind.HOBBY;
+//            } else if (i % 4 == 2) {
+//                prefix = "맛집탐방";
+//                kind = ScheduleKind.TRAVEL;
+//            } else if (i % 4 == 3) {
+//                prefix = "휴식";
+//                kind = ScheduleKind.ECT;
+//            }
+//
 //            Schedule schedule = new Schedule.Builder()
-//                    .scheduleName("스케쥴" + i)
+//                    .scheduleName(prefix + i)
 //                    .startDay(startDay)
 //                    .endDay(endDay)
-//                    .kind(ScheduleKind.STUDY)
+//                    .kind(kind)
 //                    .status(ProgressStatus.PROCEED)
 //                    .member(member)
 //                    .build();
 //
 //            scheduleService.addSchedule(schedule);
-//        }
 //
-//        PageRequest pageRequest = PageRequest.of(0, 6);
-//        Page<Schedule> schedules = scheduleService.lookupScheduleList(member, pageRequest);
-//
-//        for (Schedule schedule : schedules) {
-//            for (int i = 1; i <= 4; i++) {
+//            for (int j = 0; j < 4; j++) {
 //                ScheduleItem scheduleItem = new ScheduleItem.Builder()
-//                        .itemName("알고리즘 공부" + i)
-//                        .progress(15 * i)
+//                        .itemName(prefix + j)
+//                        .progress(15 * j)
 //                        .schedule(schedule)
 //                        .build();
 //
